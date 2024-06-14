@@ -1,5 +1,7 @@
 package com.example.CabConnect.service;
 
+import com.example.CabConnect.Enum.Gender;
+import com.example.CabConnect.Transformer.CustomerTransformer;
 import com.example.CabConnect.dto.request.CustomerRequest;
 import com.example.CabConnect.dto.response.CustomerResponse;
 import com.example.CabConnect.model.Customer;
@@ -18,51 +20,28 @@ public class CustomerService {
 
 
     public CustomerResponse addCustomer(CustomerRequest customerRequest) {
-
         //dto request -> model/entity
-        Customer customer = new Customer();
-        customer.setAge(customerRequest.getAge());
-        customer.setName(customerRequest.getName());
-        customer.setEmailId(customerRequest.getEmailId());
-        customer.setGender(customerRequest.getGender());
-
+        Customer customer = CustomerTransformer.customerRequestToCustomer(customerRequest);
         //save customer to DB
         Customer savedCustomer = customerRepository.save(customer);
-
-//        return "Customer added successfully";
-
-        //make a response dto
-        //model/entity -> dto response
-        CustomerResponse customerResponse = new CustomerResponse();
-        customerResponse.setName(savedCustomer.getName());
-        customerResponse.setEmailId(savedCustomer.getEmailId());
-        customerResponse.setAge(savedCustomer.getAge());
-
-        return customerResponse;
+        // model/entity -> dto response
+        return CustomerTransformer.customerToCustomerResponse(savedCustomer);
     }
 
     public CustomerResponse getCustomer(String email) {
         Customer customer = customerRepository.findByEmailId(email);
-
-        //model/entity -> dto response
-        CustomerResponse customerResponse = new CustomerResponse();
-        customerResponse.setEmailId(customer.getEmailId());
-        customerResponse.setName(customer.getName());
-        customerResponse.setAge(customer.getAge());
-        return customerResponse;
+        // model/entity -> dto response
+        return  CustomerTransformer.customerToCustomerResponse(customer);
     }
 
-    public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(String gender, int age) {
+    public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(Gender gender, int age) {
         List<Customer> customers = customerRepository.getAllByGenderAndAgeGreaterThan(gender,age);
-
         //model -> response
         List<CustomerResponse> customerResponses = new ArrayList<>();
         for (Customer customer:customers){
-            CustomerResponse customerResponse = new CustomerResponse();
-            customerResponse.setName(customer.getName());
-            customerResponse.setAge(customer.getAge());
-            customerResponse.setEmailId(customer.getEmailId());
-            customerResponses.add(customerResponse);
+            //CustomerResponse customerResponse = CustomerTransformer.customerToCustomerResponse(customer);
+            //customerResponses.add(customerResponse);
+            customerResponses.add(CustomerTransformer.customerToCustomerResponse(customer));
         }
         return customerResponses;
     }

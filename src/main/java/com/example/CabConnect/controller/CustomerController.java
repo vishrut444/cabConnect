@@ -1,5 +1,6 @@
 package com.example.CabConnect.controller;
 
+import com.example.CabConnect.Enum.Gender;
 import com.example.CabConnect.dto.request.CustomerRequest;
 import com.example.CabConnect.dto.response.CustomerResponse;
 import com.example.CabConnect.service.CustomerService;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/api/v1/customer")
 public class CustomerController {
 
     @Autowired
     CustomerService customerService;
 
     //API to add Customer details
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity addCustomer(@RequestBody CustomerRequest customerRequest) {
         CustomerResponse customerResponse = customerService.addCustomer(customerRequest);
 
@@ -27,13 +28,13 @@ public class CustomerController {
 
     //API to get customer detail
     //most logical by putting email ans it is unique and notnull
-    @GetMapping("/get")
+    @GetMapping
     public CustomerResponse getCustomer(@RequestParam("email") String email) {
         return customerService.getCustomer(email);
     }
 
-    @GetMapping("/get-by-gender-age")
-    public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(@RequestParam("gender") String gender, @RequestParam("age") int age) {
+    @GetMapping("/gender/{gender}/age/{age}")
+    public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(@PathVariable("gender") Gender gender, @PathVariable("age") int age) {
         return customerService.getAllByGenderAndAgeGreaterThan(gender,age);
     }
 

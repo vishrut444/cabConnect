@@ -2,10 +2,8 @@ package com.example.CabConnect.model;
 
 import com.example.CabConnect.Enum.CabType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,21 +11,26 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "cab")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cab {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
     @Column(unique = true,nullable = false)
-    private String cabNumber;
+    String cabNumber;
 
     @Enumerated(value = EnumType.STRING)
-    private CabType cabType;
+    CabType cabType;
 
-    private double farePerKm;
+    double farePerKm;
 
-    private boolean booked;//if cab is booked or not
+    boolean booked;//if cab is booked or not
+
+    @OneToOne
+    @JoinColumn
+    Driver driver;
 
 
 }

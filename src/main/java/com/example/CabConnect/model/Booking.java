@@ -2,10 +2,8 @@ package com.example.CabConnect.model;
 
 import com.example.CabConnect.Enum.BookingStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
@@ -16,27 +14,36 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "booking")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
-    private String bookingId;// UUID
+    String bookingId;// UUID
 
     @Column(nullable = false)//it cannot be null
-    private String pickup;
+    String pickup;
 
     @Column(nullable = false)
-    private String destination;
+    String destination;
 
-    private BookingStatus bookingStatus;
+    BookingStatus bookingStatus;
 
-    private double totalDistanceTravelled;
+    double totalDistanceTravelled;
 
-    private double totalFare;
+    double totalFare;
 
     @CreationTimestamp
-    private Date bookedAt;
+    Date bookedAt;
+
+    @ManyToOne
+    @JoinColumn//for PK
+    Customer customer;
+
+    @ManyToOne
+    @JoinColumn
+    Driver driver;
 
 }

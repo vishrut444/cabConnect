@@ -1,10 +1,8 @@
 package com.example.CabConnect.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,13 +10,14 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "coupon")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Coupon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
-    private String couponCode;
+    String couponCode;
 
-    private int percentageDiscount;
+    int percentageDiscount;
 }
