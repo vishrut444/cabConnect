@@ -1,10 +1,10 @@
-package com.example.CabConnect.Transformer;
+package com.example.CabConnect.Converter;
 
 import com.example.CabConnect.dto.request.CustomerRequest;
 import com.example.CabConnect.dto.response.CustomerResponse;
 import com.example.CabConnect.model.Customer;
 
-public class CustomerTransformer {
+public class CustomerConverter {
 
     // dto -> model
     public static Customer customerRequestToCustomer(CustomerRequest customerRequest){

@@ -1,7 +1,7 @@
 package com.example.CabConnect.service;
 
 import com.example.CabConnect.Enum.Gender;
-import com.example.CabConnect.Transformer.CustomerTransformer;
+import com.example.CabConnect.Converter.CustomerConverter;
 import com.example.CabConnect.dto.request.CustomerRequest;
 import com.example.CabConnect.dto.response.CustomerResponse;
 import com.example.CabConnect.model.Customer;
@@ -21,17 +21,17 @@ public class CustomerService {
 
     public CustomerResponse addCustomer(CustomerRequest customerRequest) {
         //dto request -> model/entity
-        Customer customer = CustomerTransformer.customerRequestToCustomer(customerRequest);
+        Customer customer = CustomerConverter.customerRequestToCustomer(customerRequest);
         //save customer to DB
         Customer savedCustomer = customerRepository.save(customer);
         // model/entity -> dto response
-        return CustomerTransformer.customerToCustomerResponse(savedCustomer);
+        return CustomerConverter.customerToCustomerResponse(savedCustomer);
     }
 
     public CustomerResponse getCustomer(String email) {
         Customer customer = customerRepository.findByEmailId(email);
         // model/entity -> dto response
-        return  CustomerTransformer.customerToCustomerResponse(customer);
+        return  CustomerConverter.customerToCustomerResponse(customer);
     }
 
     public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(Gender gender, int age) {
@@ -41,7 +41,7 @@ public class CustomerService {
         for (Customer customer:customers){
             //CustomerResponse customerResponse = CustomerTransformer.customerToCustomerResponse(customer);
             //customerResponses.add(customerResponse);
-            customerResponses.add(CustomerTransformer.customerToCustomerResponse(customer));
+            customerResponses.add(CustomerConverter.customerToCustomerResponse(customer));
         }
         return customerResponses;
     }
