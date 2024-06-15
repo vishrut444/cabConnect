@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "cab")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Cab {
 
     @Id
