@@ -2,9 +2,8 @@ package com.example.CabConnect.controller;
 
 import com.example.CabConnect.dto.request.DriverRequest;
 import com.example.CabConnect.dto.response.DriverResponse;
-import com.example.CabConnect.exception.DriverNotFound;
-import com.example.CabConnect.model.Driver;
 import com.example.CabConnect.service.DriverService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +14,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/driver")
+@RequiredArgsConstructor
 public class DriverController {
 
-    @Autowired
-    DriverService driverService;
+//    @Autowired
+//    DriverService driverService;
+    private final DriverService driverService;
 
     //API to add driver details and cab: good practice make seperate apis for both and connect
     //for cascading we re making it in same

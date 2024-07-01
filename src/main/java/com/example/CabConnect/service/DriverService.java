@@ -4,11 +4,11 @@ import com.example.CabConnect.Converter.CabConverter;
 import com.example.CabConnect.Converter.DriverConverter;
 import com.example.CabConnect.dto.request.DriverRequest;
 import com.example.CabConnect.dto.response.DriverResponse;
-import com.example.CabConnect.exception.DriverNotFound;
+import com.example.CabConnect.exception.DriverNotFoundException;
 import com.example.CabConnect.model.Cab;
 import com.example.CabConnect.model.Driver;
 import com.example.CabConnect.repository.DriverRepository;
-import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +17,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class DriverService {
 
-    @Autowired
-    DriverRepository driverRepository;
+//    @Autowired
+//    DriverRepository driverRepository;
+    private final DriverRepository driverRepository;
 
     public DriverResponse addDriverAndCab(DriverRequest driverRequest) {
         //dto -> entity
@@ -68,7 +70,7 @@ public class DriverService {
     public DriverResponse updateMobile(long omob, long nmob) {
         Optional<Driver> optionalDriver = Optional.ofNullable(driverRepository.findByMobileNo(omob));
         if(optionalDriver.isEmpty()){
-            throw new DriverNotFound("There is no Driver registered by the given Mobile Number!");
+            throw new DriverNotFoundException("There is no Driver registered by the given Mobile Number!");
         }
 
         driverRepository.updateMobile(omob,nmob);

@@ -1,6 +1,7 @@
 package com.example.CabConnect.model;
 
 import com.example.CabConnect.Enum.CabType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -31,6 +32,7 @@ public class Cab {
 
     @OneToOne
     @JoinColumn
+    @JsonIgnore
     Driver driver;
 
 

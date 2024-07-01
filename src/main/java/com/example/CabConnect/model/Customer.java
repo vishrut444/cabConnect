@@ -1,6 +1,7 @@
 package com.example.CabConnect.model;
 
 import com.example.CabConnect.Enum.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,5 +35,6 @@ public class Customer {
 
     //mapping 1:M By directional relationship from Customer to Booking
     @OneToMany(mappedBy = "customer")
+    @JsonIgnore
     List<Booking> bookings = new ArrayList<>();//we are using list as one customer can have many bookings
 }

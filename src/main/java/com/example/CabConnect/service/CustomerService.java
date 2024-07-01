@@ -4,19 +4,22 @@ import com.example.CabConnect.Enum.Gender;
 import com.example.CabConnect.Converter.CustomerConverter;
 import com.example.CabConnect.dto.request.CustomerRequest;
 import com.example.CabConnect.dto.response.CustomerResponse;
+import com.example.CabConnect.exception.CustomerNotFoundException;
 import com.example.CabConnect.model.Customer;
 import com.example.CabConnect.repository.CustomerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
-    @Autowired
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
 
     public CustomerResponse addCustomer(CustomerRequest customerRequest) {
@@ -29,9 +32,12 @@ public class CustomerService {
     }
 
     public CustomerResponse getCustomer(String email) {
-        Customer customer = customerRepository.findByEmailId(email);
+        Optional<Customer> customer = Optional.ofNullable(customerRepository.findByEmailId(email));
+        if(customer.isEmpty()) throw new CustomerNotFoundException("Customer is not registered!");
+
+        Customer savedCustomer = customer.get();
         // model/entity -> dto response
-        return  CustomerConverter.customerToCustomerResponse(customer);
+        return  CustomerConverter.customerToCustomerResponse(savedCustomer);
     }
 
     public List<CustomerResponse> getAllByGenderAndAgeGreaterThan(Gender gender, int age) {
@@ -39,8 +45,6 @@ public class CustomerService {
         //model -> response
         List<CustomerResponse> customerResponses = new ArrayList<>();
         for (Customer customer:customers){
-            //CustomerResponse customerResponse = CustomerTransformer.customerToCustomerResponse(customer);
-            //customerResponses.add(customerResponse);
             customerResponses.add(CustomerConverter.customerToCustomerResponse(customer));
         }
         return customerResponses;

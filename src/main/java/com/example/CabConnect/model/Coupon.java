@@ -20,4 +20,6 @@ public class Coupon {
     String couponCode;
 
     int percentageDiscount;
+
+    boolean isApplicable;
 }

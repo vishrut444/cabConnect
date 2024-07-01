@@ -1,6 +1,7 @@
 package com.example.CabConnect.model;
 
 import com.example.CabConnect.Enum.BookingStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -15,12 +16,14 @@ import java.util.Date;
 @Entity
 @Table(name = "booking")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
 public class Booking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
+    //we will set up at backend
     String bookingId;// UUID
 
     @Column(nullable = false)//it cannot be null
@@ -29,10 +32,15 @@ public class Booking {
     @Column(nullable = false)
     String destination;
 
+    //set at the backend
+    @Enumerated(EnumType.STRING)
     BookingStatus bookingStatus;
 
-    double totalDistanceTravelled;
+    //we will take it from client,
+    //but actually it is calculated by Google Maps
+    double totalDistance;
 
+    //we will calculate at backend
     double totalFare;
 
     @CreationTimestamp
@@ -40,10 +48,12 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn//for PK
+    @JsonIgnore
     Customer customer;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     Driver driver;
 
 }
